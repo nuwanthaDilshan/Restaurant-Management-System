@@ -1,0 +1,31 @@
+.Hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url(./asset/images/table-5356682_1920.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: auto;
+  height: 100vh;
+}
+
+.main{
+    padding-top: 15%;
+}
+
+.main-content{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    width: fit-content;
+    border-radius: 6px;
+}
+
+.main-header{
+    color: white;
+    font-size: 5rem;
+}
+
+.main-btn p a{
+    color: white !important;
+    font-size: 25px;
+}
+
+.main-btn p a:hover{
+    color: aqua !important;
+}

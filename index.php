@@ -12,7 +12,21 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <div class="Hero">
+        <div class="d-flex justify-content-center">
+            <div class="main">
+                <div class="main-content p-2">
+               <div>
+                 <h1 class="main-header mb-4">Restaurant Name</h1>
+                <div class="d-flex justify-content-center main-btn">
+                    <p class="me-5"><a class="link-offset-2 link-underline link-underline-opacity-0" href="#">Admin Login</a></p>
+                <p><a class="link-offset-2 link-underline link-underline-opacity-0" href="#">Cashier Login</a></p>
+                </div>
+               </div>
+            </div>
+            </div>
+        </div>
+    </div>
 
 
 
