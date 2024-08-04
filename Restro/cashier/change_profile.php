@@ -3,39 +3,47 @@ session_start();
 include('config/config.php');
 include('config/checklogin.php');
 check_login();
-//Update Profile
+
+// Update Profile
 if (isset($_POST['ChangeProfile'])) {
     $staff_id = $_SESSION['staff_id'];
     $staff_name = $_POST['staff_name'];
     $staff_email = $_POST['staff_email'];
     $Qry = "UPDATE rpos_staff SET staff_name =?, staff_email =? WHERE staff_id =?";
     $postStmt = $mysqli->prepare($Qry);
-    //bind paramaters
+    // Bind parameters
     $rc = $postStmt->bind_param('ssi', $staff_name, $staff_email, $staff_id);
     $postStmt->execute();
-    //declare a varible which will be passed to alert function
+    // Declare a variable which will be passed to alert function
     if ($postStmt) {
         $success = "Account Updated" && header("refresh:1; url=dashboard.php");
     } else {
         $err = "Please Try Again Or Try Later";
     }
 }
-if (isset($_POST['changePassword'])) {
 
-    //Change Password
+// Change Password
+if (isset($_POST['changePassword'])) {
+    // Initialize error variable
     $error = 0;
+    
+    // Validate old password
     if (isset($_POST['old_password']) && !empty($_POST['old_password'])) {
         $old_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['old_password']))));
     } else {
         $error = 1;
         $err = "Old Password Cannot Be Empty";
     }
+    
+    // Validate new password
     if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
         $new_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['new_password']))));
     } else {
         $error = 1;
         $err = "New Password Cannot Be Empty";
     }
+    
+    // Validate confirmation password
     if (isset($_POST['confirm_password']) && !empty($_POST['confirm_password'])) {
         $confirm_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['confirm_password']))));
     } else {
@@ -43,27 +51,31 @@ if (isset($_POST['changePassword'])) {
         $err = "Confirmation Password Cannot Be Empty";
     }
 
+    // Proceed if there are no errors
     if (!$error) {
         $staff_id = $_SESSION['staff_id'];
-        $sql = "SELECT * FROM rpos_staff   WHERE staff_id = '$staff_id'";
-        $res = mysqli_query($mysqli, $sql);
-        if (mysqli_num_rows($res) > 0) {
-            $row = mysqli_fetch_assoc($res);
+        $sql = "SELECT * FROM rpos_staff WHERE staff_id = ?";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param('i', $staff_id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        
+        if ($res->num_rows > 0) {
+            $row = $res->fetch_assoc();
+            // Check if old password matches
             if ($old_password != $row['staff_password']) {
-                $err =  "Please Enter Correct Old Password";
+                $err = "Please Enter Correct Old Password";
             } elseif ($new_password != $confirm_password) {
                 $err = "Confirmation Password Does Not Match";
             } else {
-
-                $new_password  = sha1(md5($_POST['new_password']));
-                //Insert Captured information to a database table
-                $query = "UPDATE rpos_staff SET  staff_password =? WHERE staff_id =?";
+                $new_password = sha1(md5($_POST['new_password']));
+                // Update password in the database
+                $query = "UPDATE rpos_staff SET staff_password = ? WHERE staff_id = ?";
                 $stmt = $mysqli->prepare($query);
-                //bind paramaters
                 $rc = $stmt->bind_param('si', $new_password, $staff_id);
                 $stmt->execute();
-
-                //declare a varible which will be passed to alert function
+                
+                // Check if the update was successful
                 if ($stmt) {
                     $success = "Password Changed" && header("refresh:1; url=dashboard.php");
                 } else {
@@ -87,9 +99,9 @@ require_once('partials/_head.php');
         <?php
         require_once('partials/_topnav.php');
         $staff_id = $_SESSION['staff_id'];
-        //$login_id = $_SESSION['login_id'];
-        $ret = "SELECT * FROM  rpos_staff  WHERE staff_id = '$staff_id'";
+        $ret = "SELECT * FROM rpos_staff WHERE staff_id = ?";
         $stmt = $mysqli->prepare($ret);
+        $stmt->bind_param('i', $staff_id);
         $stmt->execute();
         $res = $stmt->get_result();
         while ($staff = $res->fetch_object()) {
@@ -169,54 +181,49 @@ require_once('partials/_head.php');
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <label class="form-control-label" for="input-username">User Name</label>
-                                                    <input type="text" name="staff_name" value="<?php echo $staff->staff_name; ?>" id="input-username" class="form-control form-control-alternative" ">
-                                                    </div>
-                                                    </div>
-                                                    <div class=" col-lg-6">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="input-email">Email address</label>
-                                                        <input type="email" id="input-email" value="<?php echo $staff->staff_email; ?>" name="staff_email" class="form-control form-control-alternative">
-                                                    </div>
+                                                    <input type="text" name="staff_name" value="<?php echo $staff->staff_name; ?>" id="input-username" class="form-control form-control-alternative">
                                                 </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="submit" id="input-email" name="ChangeProfile" class="btn btn-success form-control-alternative" value="Submit"">
-                                                        </div>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                                                </form>
-                                                <hr>
-                                                <form method =" post">
-                                        <h6 class="heading-small text-muted mb-4">Change Password</h6>
-                                        <div class="pl-lg-4">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="input-username">Old Password</label>
-                                                        <input type="password" name="old_password" id="input-username" class="form-control form-control-alternative">
-                                                    </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">Email address</label>
+                                                    <input type="email" id="input-email" value="<?php echo $staff->staff_email; ?>" name="staff_email" class="form-control form-control-alternative">
                                                 </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="input-email">New Password</label>
-                                                        <input type="password" name="new_password" class="form-control form-control-alternative">
-                                                    </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="submit" id="input-email" name="ChangeProfile" class="btn btn-success form-control-alternative" value="Submit">
                                                 </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label class="form-control-label" for="input-email">Confirm New Password</label>
-                                                        <input type="password" name="confirm_password" class="form-control form-control-alternative">
-                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                <form method="post">
+                                    <h6 class="heading-small text-muted mb-4">Change Password</h6>
+                                    <div class="pl-lg-4">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-username">Old Password</label>
+                                                    <input type="password" name="old_password" id="input-username" class="form-control form-control-alternative">
                                                 </div>
-
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <input type="submit" id="input-email" name="changePassword" class="btn btn-success form-control-alternative" value="Change Password">
-                                                    </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">New Password</label>
+                                                    <input type="password" name="new_password" class="form-control form-control-alternative">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">Confirm New Password</label>
+                                                    <input type="password" name="confirm_password" class="form-control form-control-alternative">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="submit" id="input-email" name="changePassword" class="btn btn-success form-control-alternative" value="Change Password">
                                                 </div>
                                             </div>
                                         </div>
@@ -238,5 +245,4 @@ require_once('partials/_head.php');
     require_once('partials/_sidebar.php');
     ?>
 </body>
-
 </html>

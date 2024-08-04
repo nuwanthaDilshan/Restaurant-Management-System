@@ -53,9 +53,9 @@ while ($order = $res->fetch_object()) {
                                 <br>
                                 127-0-0-1
                                 <br>
-                                4151 Willow Oaks Lane, Sugartown
+                                25/A Colombo Colombo 5
                                 <br>
-                                (+000) 337-337-3069
+                                (+94) 112-222-222
                             </address>
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 text-right">
@@ -86,8 +86,8 @@ while ($order = $res->fetch_object()) {
                                     <td class="col-md-9"><em> <?php echo $order->prod_name; ?> </em></h4>
                                     </td>
                                     <td class="col-md-1" style="text-align: center"> <?php echo $order->prod_qty; ?></td>
-                                    <td class="col-md-1 text-center">$<?php echo $order->prod_price; ?></td>
-                                    <td class="col-md-1 text-center">$<?php echo $total; ?></td>
+                                    <td class="col-md-1 text-center">Rs: <?php echo $order->prod_price; ?></td>
+                                    <td class="col-md-1 text-center">Rs: <?php echo $total; ?></td>
                                 </tr>
                                 <tr>
                                     <td>   </td>
@@ -102,7 +102,7 @@ while ($order = $res->fetch_object()) {
                                     </td>
                                     <td class="text-center">
                                         <p>
-                                            <strong>$<?php echo $total; ?></strong>
+                                            <strong>Rs: <?php echo $total; ?></strong>
                                         </p>
                                         <p>
                                             <strong>14%</strong>
@@ -116,7 +116,7 @@ while ($order = $res->fetch_object()) {
                                         <h4><strong>Total: </strong></h4>
                                     </td>
                                     <td class="text-center text-danger">
-                                        <h4><strong>$<?php echo $total; ?></strong></h4>
+                                        <h4><strong>Rs: <?php echo $total; ?></strong></h4>
                                     </td>
                                 </tr>
                             </tbody>
