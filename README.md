@@ -2,10 +2,10 @@
 
 **Admin Login Details**
 
-Email	: admin@mail.com
-Password: admin
+* Email	: admin@mail.com
+* Password: admin
 
 **Cashier Login Details**
 
-Email	: cashier@mail.com
-Password: cashier
+* Email	: cashier@mail.com
+* Password: cashier
