@@ -16,7 +16,7 @@ while ($admin = $res->fetch_object()) {
       </button>
       <!-- Brand -->
       <a class="navbar-brand pt-0" href="dashboard.php">
-        <img src="assets/img/brand/repos.png" class="navbar-brand-img" alt="...">
+        <img src="assets/img/brand/logo.png" class="navbar-brand-img" alt="..."><p>Restaurant pos</p>
       </a>
       <!-- User -->
       <ul class="nav align-items-center d-md-none">
