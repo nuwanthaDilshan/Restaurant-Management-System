@@ -9,5 +9,3 @@ Password: admin
 
 Email	: cashier@mail.com
 Password: cashier
-
-

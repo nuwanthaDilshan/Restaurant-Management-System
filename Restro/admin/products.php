@@ -3,18 +3,20 @@ session_start();
 include('config/config.php');
 include('config/checklogin.php');
 check_login();
+
 if (isset($_GET['delete'])) {
   $id = intval($_GET['delete']);
-  $adn = "DELETE FROM  rpos_products  WHERE  prod_id = ?";
+  $adn = "DELETE FROM rpos_products WHERE prod_id = ?";
   $stmt = $mysqli->prepare($adn);
-  $stmt->bind_param('s', $id);
+  $stmt->bind_param('i', $id);
   $stmt->execute();
-  $stmt->close();
-  if ($stmt) {
-    $success = "Deleted" && header("refresh:1; url=products.php");
+  if ($stmt->affected_rows > 0) {
+    $success = "Deleted";
+    header("refresh:1; url=products.php");
   } else {
     $err = "Try Again Later";
   }
+  $stmt->close();
 }
 require_once('partials/_head.php');
 ?>
@@ -31,8 +33,8 @@ require_once('partials/_head.php');
     require_once('partials/_topnav.php');
     ?>
     <!-- Header -->
-    <div style="background-image: url(assets/img/theme/restro00.jpg); background-size: cover;" class="header  pb-8 pt-5 pt-md-8">
-    <span class="mask bg-gradient-dark opacity-8"></span>
+    <div style="background-image: url(assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header pb-8 pt-5 pt-md-8">
+      <span class="mask bg-gradient-dark opacity-8"></span>
       <div class="container-fluid">
         <div class="header-body">
         </div>
@@ -63,7 +65,7 @@ require_once('partials/_head.php');
                 </thead>
                 <tbody>
                   <?php
-                  $ret = "SELECT * FROM  rpos_products ";
+                  $ret = "SELECT * FROM rpos_products";
                   $stmt = $mysqli->prepare($ret);
                   $stmt->execute();
                   $res = $stmt->get_result();
@@ -73,18 +75,17 @@ require_once('partials/_head.php');
                       <td>
                         <?php
                         if ($prod->prod_img) {
-                          echo "<img src='assets/img/products/$prod->prod_img' height='60' width='60 class='img-thumbnail'>";
+                          echo "<img src='assets/img/products/$prod->prod_img' height='60' width='60' class='img-thumbnail'>";
                         } else {
-                          echo "<img src='assets/img/products/default.jpg' height='60' width='60 class='img-thumbnail'>";
+                          echo "<img src='assets/img/products/default.jpg' height='60' width='60' class='img-thumbnail'>";
                         }
-
                         ?>
                       </td>
                       <td><?php echo $prod->prod_code; ?></td>
                       <td><?php echo $prod->prod_name; ?></td>
                       <td>Rs: <?php echo $prod->prod_price; ?></td>
                       <td>
-                        <a href="products.php?delete=<?php echo $prod->prod_id; ?>">
+                        <a href="products.php?delete=<?php echo $prod->prod_id; ?>" onclick="return confirm('Are you sure you want to delete this product?');">
                           <button class="btn btn-sm btn-danger">
                             <i class="fas fa-trash"></i>
                             Delete
@@ -99,7 +100,10 @@ require_once('partials/_head.php');
                         </a>
                       </td>
                     </tr>
-                  <?php } ?>
+                  <?php
+                  }
+                  $stmt->close();
+                  ?>
                 </tbody>
               </table>
             </div>
