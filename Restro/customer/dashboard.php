@@ -7,7 +7,6 @@ check_login();
 require_once('partials/_head.php');
 require_once('partials/_analytics.php');
 ?>
-<!-- For more projects: Visit codeastro.com  -->
 <body>
   <!-- Sidenav -->
   <?php
@@ -34,7 +33,7 @@ require_once('partials/_analytics.php');
                       <div class="col">
                         <h5 class="card-title text-uppercase text-muted mb-0">Available Items</h5>
                         <span class="h2 font-weight-bold mb-0"><?php echo $products; ?></span>
-                      </div><!-- For more projects: Visit codeastro.com  -->
+                      </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-purple text-white rounded-circle shadow">
                           <i class="fas fa-utensils"></i>
@@ -44,7 +43,7 @@ require_once('partials/_analytics.php');
                   </div>
                 </div>
               </a>
-            </div><!-- For more projects: Visit codeastro.com  -->
+            </div>
             <div class="col-xl-4 col-lg-6">
               <a href="orders_reports.php">
                 <div class="card card-stats mb-4 mb-xl-0">
@@ -62,7 +61,7 @@ require_once('partials/_analytics.php');
                     </div>
                   </div>
                 </div>
-              </a><!-- For more projects: Visit codeastro.com  -->
+              </a>
             </div>
             <div class="col-xl-4 col-lg-6">
               <a href="payments_reports.php">
@@ -71,13 +70,13 @@ require_once('partials/_analytics.php');
                     <div class="row">
                       <div class="col">
                         <h5 class="card-title text-uppercase text-muted mb-0">Total Money Spend</h5>
-                        <span class="h2 font-weight-bold mb-0">$<?php echo $sales; ?></span>
+                        <span class="h2 font-weight-bold mb-0">Rs: <?php echo $sales; ?></span>
                       </div>
                       <div class="col-auto">
                         <div class="icon icon-shape bg-green text-white rounded-circle shadow">
                           <i class="fas fa-wallet"></i>
                         </div>
-                      </div><!-- For more projects: Visit codeastro.com  -->
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -85,7 +84,7 @@ require_once('partials/_analytics.php');
             </div>
           </div>
         </div>
-      </div><!-- For more projects: Visit codeastro.com  -->
+      </div>
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--7">
@@ -106,7 +105,7 @@ require_once('partials/_analytics.php');
               <!-- Projects table -->
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
-                  <tr><!-- For more projects: Visit codeastro.com  -->
+                  <tr>
                     <th class="text-success" scope="col">Code</th>
                     <th scope="col">Customer</th>
                     <th class="text-success" scope="col">Product</th>
@@ -132,9 +131,9 @@ require_once('partials/_analytics.php');
                       <th class="text-success" scope="row"><?php echo $order->order_code; ?></th>
                       <td><?php echo $order->customer_name; ?></td>
                       <td class="text-success"><?php echo $order->prod_name; ?></td>
-                      <td>$<?php echo $order->prod_price; ?></td>
+                      <td>Rs: <?php echo $order->prod_price; ?></td>
                       <td class="text-success"><?php echo $order->prod_qty; ?></td>
-                      <td>$<?php echo $total; ?></td>
+                      <td>Rs: <?php echo $total; ?></td>
                       <td><?php if ($order->order_status == '') {
                             echo "<span class='badge badge-danger'>Not Paid</span>";
                           } else {
@@ -149,7 +148,6 @@ require_once('partials/_analytics.php');
           </div>
         </div>
       </div>
-		<!-- For more projects: Visit codeastro.com  -->
       <div class="row mt-5">
         <div class="col-xl-12">
           <div class="card shadow">
@@ -186,7 +184,7 @@ require_once('partials/_analytics.php');
                         <?php echo $payment->pay_code; ?>
                       </th>
                       <td>
-                        $<?php echo $payment->pay_amt; ?>
+                        Rs: <?php echo $payment->pay_amt; ?>
                       </td>
                       <td class='text-success'>
                         <?php echo $payment->order_code; ?>
@@ -208,5 +206,4 @@ require_once('partials/_analytics.php');
   require_once('partials/_scripts.php');
   ?>
 </body>
-<!-- For more projects: Visit codeastro.com  -->
 </html>

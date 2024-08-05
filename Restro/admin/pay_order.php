@@ -77,7 +77,7 @@ require_once('partials/_head.php');
     <!-- Page content -->
     <div class="container-fluid mt--8">
       <!-- Table -->
-      <div class="row"><!-- For more projects: Visit codeastro.com  -->
+      <div class="row">
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
@@ -109,7 +109,7 @@ require_once('partials/_head.php');
                     </select>
                   </div>
                 </div>
-                <br><!-- For more projects: Visit codeastro.com  -->
+                <br>
                 <div class="form-row">
                   <div class="col-md-6">
                     <input type="submit" name="pay" value="Pay Order" class="btn btn-success" value="">
@@ -130,6 +130,4 @@ require_once('partials/_head.php');
   <?php
   require_once('partials/_scripts.php'); }
   ?>
-</body>
-<!-- For more projects: Visit codeastro.com  -->
 </html>

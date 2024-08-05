@@ -5,7 +5,6 @@ include('config/checklogin.php');
 check_login();
 require_once('partials/_head.php');
 ?>
-<!-- For more projects: Visit codeastro.com  -->
 <body>
     <!-- Sidenav -->
     <?php
@@ -23,7 +22,7 @@ require_once('partials/_head.php');
             <div class="container-fluid">
                 <div class="header-body">
                 </div>
-            </div><!-- For more projects: Visit codeastro.com  -->
+            </div>
         </div>
         <!-- Page content -->
         <div class="container-fluid mt--8">
@@ -37,7 +36,7 @@ require_once('partials/_head.php');
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
-                                    <tr><!-- For more projects: Visit codeastro.com  -->
+                                    <tr>
                                         <th class="text-success" scope="col">Code</th>
                                         <th scope="col">Customer</th>
                                         <th class="text-success" scope="col">Product</th>
@@ -47,7 +46,7 @@ require_once('partials/_head.php');
                                         <th class="text-success" scope="col">Date</th>
                                         <th scope="col">Actions</th>
                                     </tr>
-                                </thead><!-- For more projects: Visit codeastro.com  -->
+                                </thead>
                                 <tbody>
                                     <?php
                                     $ret = "SELECT * FROM  rpos_orders WHERE order_status = 'Paid' ORDER BY `rpos_orders`.`created_at` DESC  ";
@@ -77,7 +76,7 @@ require_once('partials/_head.php');
                                         </tr>
                                     <?php } ?>
                                 </tbody>
-                            </table><!-- For more projects: Visit codeastro.com  -->
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -93,5 +92,5 @@ require_once('partials/_head.php');
     require_once('partials/_scripts.php');
     ?>
 </body>
-<!-- For more projects: Visit codeastro.com  -->
+
 </html>
