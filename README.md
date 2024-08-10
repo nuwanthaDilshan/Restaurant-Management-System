@@ -9,3 +9,8 @@ Password: admin
 
 Email	: cashier@mail.com
 Password: cashier
+
+**customer Login Details**
+
+Email	: normal@mail.com
+Password: normal
