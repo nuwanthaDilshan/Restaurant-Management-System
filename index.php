@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- title icon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="./Restro/admin/assets/img/icons/logo.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./Restro/admin/assets/img/icons/logo.png">
-    <title>Restaurant POS System</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./restaurant/admin/assets/img/icons/logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./restaurant/admin/assets/img/icons/logo.png">
+    <title>Hot Meal Restaurant</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -20,15 +20,15 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="main-logo-img">
-                <img src="./images/logo.png" width="400" height="500" alt="">
+                <img src="./images/logo.png" width="500" height="500" alt="">
             </div>
             <div class="title m-b-md">
-                Restaurant Name
+            Hot Meal Restaurant
             </div>
             <div class="links">
-                <a href="Restro/admin/">Admin Log In</a>
-                <a href="Restro/cashier/">Cashier Log In</a>
-                <a href="Restro/customer">Customer Log In</a>
+                <a href="restaurant/admin/">Manager Log In</a>
+                <a href="restaurant/cashier/">Cashier Log In</a>
+                <a href="restaurant/customer">Customer Log In</a>
             </div>
         </div>
     </div>
