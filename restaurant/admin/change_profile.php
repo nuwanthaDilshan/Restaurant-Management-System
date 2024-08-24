@@ -6,74 +6,74 @@ check_login();
 
 // Update Profile
 if (isset($_POST['ChangeProfile'])) {
-    $admin_id = $_SESSION['admin_id'];
-    $admin_name = $_POST['admin_name'];
-    $admin_email = $_POST['admin_email'];
-    $Qry = "UPDATE rpos_admin SET admin_name =?, admin_email =? WHERE admin_id =?";
-    $postStmt = $mysqli->prepare($Qry);
-    // bind parameters
-    $rc = $postStmt->bind_param('sss', $admin_name, $admin_email, $admin_id);
-    $postStmt->execute();
-    // declare a variable which will be passed to alert function
-    if ($postStmt) {
-        $success = "Account Updated" && header("refresh:1; url=dashboard.php");
-    } else {
-        $err = "Please Try Again Or Try Later";
-    }
+  $admin_id = $_SESSION['admin_id'];
+  $admin_name = $_POST['admin_name'];
+  $admin_email = $_POST['admin_email'];
+  $Qry = "UPDATE rpos_admin SET admin_name =?, admin_email =? WHERE admin_id =?";
+  $postStmt = $mysqli->prepare($Qry);
+  // bind parameters
+  $rc = $postStmt->bind_param('sss', $admin_name, $admin_email, $admin_id);
+  $postStmt->execute();
+  // declare a variable which will be passed to alert function
+  if ($postStmt) {
+    $success = "Account Updated" && header("refresh:1; url=dashboard.php");
+  } else {
+    $err = "Please Try Again Or Try Later";
+  }
 }
 
 // Change Password
 if (isset($_POST['changePassword'])) {
-    $error = 0;
-    if (isset($_POST['old_password']) && !empty($_POST['old_password'])) {
-        $old_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['old_password']))));
-    } else {
-        $error = 1;
-        $err = "Old Password Cannot Be Empty";
-    }
-    if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
-        $new_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['new_password']))));
-    } else {
-        $error = 1;
-        $err = "New Password Cannot Be Empty";
-    }
-    if (isset($_POST['confirm_password']) && !empty($_POST['confirm_password'])) {
-        $confirm_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['confirm_password']))));
-    } else {
-        $error = 1;
-        $err = "Confirmation Password Cannot Be Empty";
-    }
+  $error = 0;
+  if (isset($_POST['old_password']) && !empty($_POST['old_password'])) {
+    $old_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['old_password']))));
+  } else {
+    $error = 1;
+    $err = "Old Password Cannot Be Empty";
+  }
+  if (isset($_POST['new_password']) && !empty($_POST['new_password'])) {
+    $new_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['new_password']))));
+  } else {
+    $error = 1;
+    $err = "New Password Cannot Be Empty";
+  }
+  if (isset($_POST['confirm_password']) && !empty($_POST['confirm_password'])) {
+    $confirm_password = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['confirm_password']))));
+  } else {
+    $error = 1;
+    $err = "Confirmation Password Cannot Be Empty";
+  }
 
-    if (!$error) {
-        $admin_id = $_SESSION['admin_id'];
-        $sql = "SELECT * FROM rpos_admin WHERE admin_id = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('s', $admin_id);
+  if (!$error) {
+    $admin_id = $_SESSION['admin_id'];
+    $sql = "SELECT * FROM rpos_admin WHERE admin_id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param('s', $admin_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($res->num_rows > 0) {
+      $row = $res->fetch_assoc();
+      if ($old_password != $row['admin_password']) {
+        $err = "Please Enter Correct Old Password";
+      } elseif ($new_password != $confirm_password) {
+        $err = "Confirmation Password Does Not Match";
+      } else {
+        $new_password = sha1(md5($_POST['new_password']));
+        // Update password in the database
+        $query = "UPDATE rpos_admin SET admin_password =? WHERE admin_id =?";
+        $stmt = $mysqli->prepare($query);
+        // bind parameters
+        $rc = $stmt->bind_param('ss', $new_password, $admin_id);
         $stmt->execute();
-        $res = $stmt->get_result();
-        if ($res->num_rows > 0) {
-            $row = $res->fetch_assoc();
-            if ($old_password != $row['admin_password']) {
-                $err = "Please Enter Correct Old Password";
-            } elseif ($new_password != $confirm_password) {
-                $err = "Confirmation Password Does Not Match";
-            } else {
-                $new_password = sha1(md5($_POST['new_password']));
-                // Update password in the database
-                $query = "UPDATE rpos_admin SET admin_password =? WHERE admin_id =?";
-                $stmt = $mysqli->prepare($query);
-                // bind parameters
-                $rc = $stmt->bind_param('ss', $new_password, $admin_id);
-                $stmt->execute();
-                // declare a variable which will be passed to alert function
-                if ($stmt) {
-                    $success = "Password Changed" && header("refresh:1; url=dashboard.php");
-                } else {
-                    $err = "Please Try Again Or Try Later";
-                }
-            }
+        // declare a variable which will be passed to alert function
+        if ($stmt) {
+          $success = "Password Changed" && header("refresh:1; url=dashboard.php");
+        } else {
+          $err = "Please Try Again Or Try Later";
         }
+      }
     }
+  }
 }
 
 require_once('partials/_head.php');
@@ -105,7 +105,7 @@ require_once('partials/_head.php');
         <div class="container-fluid d-flex align-items-center">
           <div class="row">
             <div class="col-lg-7 col-md-10">
-              <h1 class="display-2 text-white">Hello <?php echo $admin->admin_name; ?></h1>
+              <h1 class="display-2 text-white text-capitalize">Hello <?php echo $admin->admin_name; ?></h1>
               <p class="text-white mt-0 mb-5">This is your profile page. You can customize your profile as you want And also change password too</p>
             </div>
           </div>
@@ -143,7 +143,7 @@ require_once('partials/_head.php');
                   </div>
                 </div>
                 <div class="text-center">
-                  <h3>
+                  <h3 class="text-capitalize">
                     <?php echo $admin->admin_name; ?></span>
                   </h3>
                   <div class="h5 font-weight-300">

@@ -94,7 +94,7 @@ require_once('partials/_head.php');
     <!-- Main content -->
     <div class="main-content">
         <!-- Top navbar -->
-        <?php require_once('partials/_topnav.php'); 
+        <?php require_once('partials/_topnav.php');
         $customer_id = $_SESSION['customer_id'];
         $ret = "SELECT * FROM rpos_customers WHERE customer_id = ?";
         $stmt = $mysqli->prepare($ret);
@@ -105,13 +105,13 @@ require_once('partials/_head.php');
         ?>
             <!-- Header -->
             <div style="background-image: url(../admin/assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header  pb-8 pt-5 pt-md-8">
-            <!-- Mask -->
+                <!-- Mask -->
                 <span class="mask bg-gradient-default opacity-8"></span>
                 <!-- Header container -->
                 <div class="container-fluid d-flex align-items-center">
                     <div class="row">
                         <div class="col-lg-7 col-md-10">
-                            <h1 class="display-2 text-white">Hello <?php echo $customer->customer_name; ?></h1>
+                            <h1 class="display-2 text-white text-capitalize">Hello <?php echo $customer->customer_name; ?></h1>
                             <p class="text-white mt-0 mb-5">This is your profile page. You can customize your profile as you want And also change password too</p>
                         </div>
                     </div>
@@ -145,7 +145,7 @@ require_once('partials/_head.php');
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <h3><?php echo $customer->customer_name; ?></h3>
+                                    <h3 class="text-capitalize"><?php echo $customer->customer_name; ?></h3>
                                     <div class="h5 font-weight-300">
                                         <i class="fas fa-envelope mr-2"></i><?php echo $customer->customer_email; ?>
                                     </div>

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="MartDevelopers Inc">
-    <title>Hot Meal Restaurant  </title>
+    <title>Hot Meal Restaurant </title>
     <!-- title icon -->
     <link rel="icon" type="image/png" sizes="32x32" href="../admin/assets/img/icons/logo.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../admin/assets/img/icons/logo.png">
@@ -25,6 +25,17 @@
     <!-- Argon CSS -->
     <link type="text/css" href="assets/css/argon.css?v=1.0.0" rel="stylesheet">
     <script src="assets/js/swal.js"></script>
+    <style>
+        .error_msg {
+            font-size: 12px;
+            color: red;
+            display: none;
+        }
+
+        .error_msg_view {
+            display: block;
+        }
+    </style>
     <!--Load Swal-->
     <?php if (isset($success)) { ?>
         <!--This code for injecting success alert-->

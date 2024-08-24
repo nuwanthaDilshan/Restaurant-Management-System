@@ -5,29 +5,40 @@ include('config/checklogin.php');
 include('config/code-generator.php');
 
 check_login();
+
 if (isset($_POST['make'])) {
-  //Prevent Posting Blank Values
-  if (empty($_POST["order_code"]) || empty($_POST["customer_name"]) || empty($_GET['prod_price'])) {
+  // Prevent Posting Blank Values
+  if (empty($_POST["order_code"]) || empty($_POST["customer_id"]) || empty($_GET['prod_price']) || empty($_POST['prod_qty'])) {
     $err = "Blank Values Not Accepted";
   } else {
     $order_id = $_POST['order_id'];
     $order_code  = $_POST['order_code'];
     $customer_id = $_POST['customer_id'];
-    $customer_name = $_POST['customer_name'];
+
+    // Retrieve customer name based on the selected customer ID
+    $ret = "SELECT customer_name FROM rpos_customers WHERE customer_id = ?";
+    $stmt = $mysqli->prepare($ret);
+    $stmt->bind_param('s', $customer_id);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $customer = $res->fetch_object();
+    $customer_name = $customer->customer_name;
+
     $prod_id  = $_GET['prod_id'];
     $prod_name = $_GET['prod_name'];
     $prod_price = $_GET['prod_price'];
     $prod_qty = $_POST['prod_qty'];
 
-    //Insert Captured information to a database table
+    // Insert Captured information into a database table
     $postQuery = "INSERT INTO rpos_orders (prod_qty, order_id, order_code, customer_id, customer_name, prod_id, prod_name, prod_price) VALUES(?,?,?,?,?,?,?,?)";
     $postStmt = $mysqli->prepare($postQuery);
-    //bind paramaters
+    // Bind parameters
     $rc = $postStmt->bind_param('ssssssss', $prod_qty, $order_id, $order_code, $customer_id, $customer_name, $prod_id, $prod_name, $prod_price);
     $postStmt->execute();
-    //declare a varible which will be passed to alert function
+    // Declare a variable which will be passed to the alert function
     if ($postStmt) {
-      $success = "Order Submitted" && header("refresh:1; url=payments.php");
+      $success = "Order Submitted";
+      header("refresh:1; url=payments.php");
     } else {
       $err = "Please Try Again Or Try Later";
     }
@@ -48,8 +59,8 @@ require_once('partials/_head.php');
     require_once('partials/_topnav.php');
     ?>
     <!-- Header -->
-    <div style="background-image: url(assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header pb-8 pt-5 pt-md-8">
-    <span class="mask bg-gradient-dark opacity-8"></span>
+    <div style="background-image: url(../admin/assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header pb-8 pt-5 pt-md-8">
+      <span class="mask bg-gradient-dark opacity-8"></span>
       <div class="container-fluid">
         <div class="header-body">
         </div>
@@ -73,14 +84,14 @@ require_once('partials/_head.php');
                     <select class="form-control" name="customer_name" id="custName" onChange="getCustomer(this.value)">
                       <option value="">Select Customer Name</option>
                       <?php
-                      //Load All Customers
-                      $ret = "SELECT * FROM  rpos_customers ";
+                      // Load All Customers
+                      $ret = "SELECT * FROM rpos_customers";
                       $stmt = $mysqli->prepare($ret);
                       $stmt->execute();
                       $res = $stmt->get_result();
                       while ($cust = $res->fetch_object()) {
                       ?>
-                        <option><?php echo $cust->customer_name; ?></option>
+                        <option value="<?php echo $cust->customer_id; ?>"><?php echo $cust->customer_name; ?></option>
                       <?php } ?>
                     </select>
                     <input type="hidden" name="order_id" value="<?php echo $orderid; ?>" class="form-control">
@@ -93,13 +104,13 @@ require_once('partials/_head.php');
 
                   <div class="col-md-4">
                     <label>Order Code</label>
-                    <input type="text" name="order_code" value="<?php echo $alpha; ?>-<?php echo $beta; ?>" class="form-control" value="">
+                    <input type="text" name="order_code" readonly value="<?php echo $alpha; ?>-<?php echo $beta; ?>" class="form-control">
                   </div>
                 </div>
                 <hr>
                 <?php
                 $prod_id = $_GET['prod_id'];
-                $ret = "SELECT * FROM  rpos_products WHERE prod_id = '$prod_id'";
+                $ret = "SELECT * FROM rpos_products WHERE prod_id = '$prod_id'";
                 $stmt = $mysqli->prepare($ret);
                 $stmt->execute();
                 $res = $stmt->get_result();
@@ -107,19 +118,20 @@ require_once('partials/_head.php');
                 ?>
                   <div class="form-row">
                     <div class="col-md-6">
-                      <label>Product Price (Rs: )</label>
+                      <label>Product Price (Rs)</label>
                       <input type="text" readonly name="prod_price" value="Rs: <?php echo $prod->prod_price; ?>" class="form-control">
                     </div>
                     <div class="col-md-6">
                       <label>Product Quantity</label>
-                      <input type="text" name="prod_qty" class="form-control" value="">
+                      <input type="text" name="prod_qty" id="prod_qty" class="form-control" value="">
+                      <label class="error_msg" id="Error"></label>
                     </div>
                   </div>
                 <?php } ?>
                 <br>
                 <div class="form-row">
                   <div class="col-md-6">
-                    <input type="submit" name="make" value="Make Order" class="btn btn-success" value="">
+                    <input type="submit" name="make" value="Make Order" class="btn btn-success" onclick="return empty()">
                   </div>
                 </div>
               </form>
@@ -137,6 +149,27 @@ require_once('partials/_head.php');
   <?php
   require_once('partials/_scripts.php');
   ?>
+
+  <script>
+    function getCustomer(customer_id) {
+      document.getElementById("customerID").value = customer_id;
+    }
+
+    function empty() {
+      let isValid = true;
+      var p_qty = document.getElementById("prod_qty").value;
+      var error = document.getElementById("Error");
+      error.innerHTML = "";
+
+      if (p_qty === "" || p_qty <= 0) {
+        error.innerHTML = "Product Quantity is required and must be greater than zero";
+        error.classList.add("error_msg_view");
+        isValid = false;
+      }
+
+      return isValid;
+    }
+  </script>
 </body>
 
 </html>

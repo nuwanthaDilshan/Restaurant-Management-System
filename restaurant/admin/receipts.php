@@ -19,7 +19,7 @@ require_once('partials/_head.php');
         ?>
         <!-- Header -->
         <div style="background-image: url(assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header  pb-8 pt-5 pt-md-8">
-        <span class="mask bg-gradient-dark opacity-8"></span>
+            <span class="mask bg-gradient-dark opacity-8"></span>
             <div class="container-fluid">
                 <div class="header-body">
                 </div>
@@ -60,7 +60,7 @@ require_once('partials/_head.php');
                                     ?>
                                         <tr>
                                             <th class="text-success" scope="row"><?php echo $order->order_code; ?></th>
-                                            <td><?php echo $order->customer_name; ?></td>
+                                            <td class="text-capitalize"><?php echo $order->customer_name; ?></td>
                                             <td class="text-success"><?php echo $order->prod_name; ?></td>
                                             <td>Rs: <?php echo $order->prod_price; ?></td>
                                             <td class="text-success"><?php echo $order->prod_qty; ?></td>
@@ -93,4 +93,5 @@ require_once('partials/_head.php');
     require_once('partials/_scripts.php');
     ?>
 </body>
+
 </html>

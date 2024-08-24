@@ -97,11 +97,11 @@ while ($customer = $res->fetch_object()) {
               <i class="ni ni-cart text-primary"></i>Make Order
             </a>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link" href="payments.php">
               <i class="ni ni-credit-card text-primary"></i> Payments
             </a>
-          </li> -->
+          </li>
         </ul>
         <!-- Divider -->
         <hr class="my-3">

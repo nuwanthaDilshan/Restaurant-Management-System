@@ -139,18 +139,20 @@ require_once('partials/_analytics.php');
                   $stmt->execute();
                   $res = $stmt->get_result();
                   while ($order = $res->fetch_object()) {
-                    $total = ($order->prod_price * $order->prod_qty);
+                    $total = ((float)$order->prod_price * (int)$order->prod_qty);
 
                   ?>
                     <tr>
                       <th class="text-success" scope="row"><?php echo $order->order_code; ?></th>
-                      <td><?php echo $order->customer_name; ?></td>
+                      <td class="text-capitalize"><?php echo $order->customer_name; ?></td>
                       <td class="text-success"><?php echo $order->prod_name; ?></td>
                       <td>Rs: <?php echo $order->prod_price; ?></td>
                       <td class="text-success"><?php echo $order->prod_qty; ?></td>
                       <td>Rs: <?php echo $total; ?></td>
                       <td><?php if ($order->order_status == '') {
                             echo "<span class='badge badge-danger'>Not Paid</span>";
+                          } elseif ($order->order_status == 'Canceled') {
+                            echo "<span class='badge badge-warning'>Canceled</span>";
                           } else {
                             echo "<span class='badge badge-success'>$order->order_status</span>";
                           } ?></td>
@@ -221,4 +223,5 @@ require_once('partials/_analytics.php');
   require_once('partials/_scripts.php');
   ?>
 </body>
+
 </html>

@@ -33,7 +33,7 @@ require_once('partials/_head.php');
         ?>
         <!-- Header -->
         <div style="background-image: url(../admin/assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header pb-8 pt-5 pt-md-8">
-        <span class="mask bg-gradient-dark opacity-8"></span>
+            <span class="mask bg-gradient-dark opacity-8"></span>
             <div class="container-fluid">
                 <div class="header-body">
                 </div>
@@ -70,7 +70,7 @@ require_once('partials/_head.php');
                                     while ($cust = $res->fetch_object()) {
                                     ?>
                                         <tr>
-                                            <td><?php echo $cust->customer_name; ?></td>
+                                            <td class="text-capitalize"><?php echo $cust->customer_name; ?></td>
                                             <td><?php echo $cust->customer_phoneno; ?></td>
                                             <td><?php echo $cust->customer_email; ?></td>
                                             <td>

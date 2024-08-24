@@ -25,6 +25,17 @@
     <!-- Argon CSS -->
     <link type="text/css" href="assets/css/argon.css?v=1.0.0" rel="stylesheet">
     <script src="assets/js/swal.js"></script>
+    <style>
+        .error_msg {
+            font-size: 12px;
+            color: red;
+            display: none;
+        }
+
+        .error_msg_view {
+            display: block;
+        }
+    </style>
     <!--Load Swal-->
     <?php if (isset($success)) { ?>
         <!--This code for injecting success alert-->
@@ -71,5 +82,5 @@
 
         }
     </script>
- 
+
 </head>

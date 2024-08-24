@@ -6,8 +6,8 @@ include('config/code-generator.php');
 
 check_login();
 if (isset($_POST['make'])) {
-    //Prevent Posting Blank Values
-    if (empty($_POST["order_code"]) || empty($_POST["customer_name"]) || empty($_GET['prod_price'])) {
+    // Prevent Posting Blank Values
+    if (empty($_POST["order_code"]) || empty($_POST["customer_name"]) || empty($_GET['prod_price']) || empty($_POST['prod_qty'])) {
         $err = "Blank Values Not Accepted";
     } else {
         $order_id = $_POST['order_id'];
@@ -19,13 +19,13 @@ if (isset($_POST['make'])) {
         $prod_price = $_GET['prod_price'];
         $prod_qty = $_POST['prod_qty'];
 
-        //Insert Captured information to a database table
+        // Insert Captured information to a database table
         $postQuery = "INSERT INTO rpos_orders (prod_qty, order_id, order_code, customer_id, customer_name, prod_id, prod_name, prod_price) VALUES(?,?,?,?,?,?,?,?)";
         $postStmt = $mysqli->prepare($postQuery);
-        //bind paramaters
+        // Bind parameters
         $rc = $postStmt->bind_param('ssssssss', $prod_qty, $order_id, $order_code, $customer_id, $customer_name, $prod_id, $prod_name, $prod_price);
         $postStmt->execute();
-        //declare a varible which will be passed to alert function
+        // Declare a variable which will be passed to alert function
         if ($postStmt) {
             $success = "Order Submitted" && header("refresh:1; url=payments.php");
         } else {
@@ -49,7 +49,7 @@ require_once('partials/_head.php');
         ?>
         <!-- Header -->
         <div style="background-image: url(../admin/assets/img/theme/hotel-1191718_1920.jpg); background-size: cover; background-position: center center;" class="header pb-8 pt-5 pt-md-8">
-        <span class="mask bg-gradient-dark opacity-8"></span>
+            <span class="mask bg-gradient-dark opacity-8"></span>
             <div class="container-fluid">
                 <div class="header-body">
                 </div>
@@ -71,7 +71,7 @@ require_once('partials/_head.php');
                                     <div class="col-md-6">
                                         <label>Customer Name</label>
                                         <?php
-                                        //Load All Customers
+                                        // Load All Customers
                                         $customer_id = $_SESSION['customer_id'];
                                         $ret = "SELECT * FROM  rpos_customers WHERE customer_id = '$customer_id' ";
                                         $stmt = $mysqli->prepare($ret);
@@ -104,14 +104,15 @@ require_once('partials/_head.php');
                                         </div>
                                         <div class="col-md-6">
                                             <label>Product Quantity</label>
-                                            <input type="text" name="prod_qty" class="form-control" value="">
+                                            <input type="text" name="prod_qty" id="prod_qty" class="form-control" value="">
+                                            <label class="error_msg" id="Error"></label>
                                         </div>
                                     </div>
                                 <?php } ?>
                                 <br>
                                 <div class="form-row">
                                     <div class="col-md-6">
-                                        <input type="submit" name="make" value="Make Order" class="btn btn-success" value="">
+                                        <input type="submit" name="make" value="Make Order" class="btn btn-success" onclick="return empty()">
                                     </div>
                                 </div>
                             </form>
@@ -129,6 +130,23 @@ require_once('partials/_head.php');
     <?php
     require_once('partials/_scripts.php');
     ?>
+
+    <script>
+        function empty() {
+            let isValid = true;
+            var p_qty = document.getElementById("prod_qty").value;
+            var error = document.getElementById("Error");
+            error.innerHTML = "";
+
+            if (p_qty === "" || p_qty <= 0) {
+                error.innerHTML = "Product Quantity is required and must be greater than zero";
+                error.classList.add("error_msg_view");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
 </body>
 
 </html>

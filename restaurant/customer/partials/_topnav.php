@@ -23,7 +23,7 @@ while ($customer = $res->fetch_object()) {
                                 <img alt="Image placeholder" src="../admin/assets/img/theme/user-a-min.png">
                             </span>
                             <div class="media-body ml-2 d-none d-lg-block">
-                                <span class="mb-0 text-sm  font-weight-bold"><?php echo $customer->customer_name; ?></span>
+                                <span class="mb-0 text-sm  font-weight-bold text-capitalize"><?php echo $customer->customer_name; ?></span>
                             </div>
                         </div>
                     </a>
