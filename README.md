@@ -1,4 +1,4 @@
-# Hot Meal Restaurant Management System
+# 🍽️ Hot Meal Restaurant Management System
 
 ![Hot Meal Restaurant Management System](/images/readmeImage.png)
 
