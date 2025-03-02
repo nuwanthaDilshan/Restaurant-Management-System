@@ -5,14 +5,16 @@
 Hot Meal is a Restaurant Management System built using PHP, HTML, CSS, Bootstrap, and MySQL. This system helps restaurants manage orders, reservations, menu items, staff, and customer interactions efficiently.
 
 ## 📌 Features
--✅ Admin Dashboard – Manage orders, menu, staff, and reservations
--✅ Customer Panel – Browse menu, place orders, and make reservations
--✅ Order Management – Track and update food orders
--✅ Menu Management – Add, update, and delete food items
--✅ Billing System – Generate and print bills for customers
--✅ Authentication System – Secure login for admin and users
+
+-[x] Admin Dashboard – Manage orders, menu, staff, and reservations
+-[x] Customer Panel – Browse menu, place orders, and make reservations
+-[x] Order Management – Track and update food orders
+-[x] Menu Management – Add, update, and delete food items
+-[x] Billing System – Generate and print bills for customers
+-[x] Authentication System – Secure login for admin and users
 
 ## 🛠️ Technologies Used
+
 - Frontend: HTML, CSS, Bootstrap, JavaScript
 - Backend: PHP (Core PHP / Laravel)
 - Database: MySQL
@@ -65,6 +67,7 @@ Email	: normal@mail.com
 Password: normal
 ```
 ## 👨‍💻 Contributing
+
 1. Fork the project
 2. Create a new branch (feature/your-feature)
 3. Commit your changes (git commit -m "Added new feature")
