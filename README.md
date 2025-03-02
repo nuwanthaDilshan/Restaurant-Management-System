@@ -31,7 +31,7 @@ cd Restaurant-Management-System
 
 # Import the database
 - Open phpMyAdmin
-- Create a database (e.g., restaurant_db)
+- Create a database (e.g., restaurant)
 - Import database.sql file
 
 # Configure Database Connection
@@ -39,7 +39,7 @@ cd Restaurant-Management-System
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "restaurant_db";
+$database = "restaurant";
 
 # Start the server
 - If using XAMPP, place the project folder in htdocs
